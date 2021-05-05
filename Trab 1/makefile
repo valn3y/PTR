@@ -1,5 +1,5 @@
-### Makefile Trabalho 1 ###
-###By: Josias Ben e Valney Marinho###
+### Makefile Trabalho 1
+###By: Josias Ben e Valney Marinho
 
 all: trab1
 
