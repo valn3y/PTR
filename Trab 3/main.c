@@ -16,11 +16,10 @@ int main(){
 		{0.77, 1.04},
 		{2.84, 4.00}	
 	};
-
-	printf("-----MATRIZ A-----\n");
+	printf("------Matriz A-----\n");
 	printMatrix(matrixA);
 	printf("\n");
-	printf("-----MATRIZ B-----\n");
+	printf("------Matriz B-----\n");
 	printMatrix(matrixB);
 	printf("\n");
 

@@ -98,7 +98,6 @@ void transposed(float matrix[2][2]){
 			matrixResult[j][i] = matrix[i][j];
 		}
 	}
-
 	printMatrix(matrixResult);
 	printf("\n");
 }
