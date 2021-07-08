@@ -59,3 +59,43 @@ Matrix simulate(double prev_t, double t, Matrix u){
     Matrix res = matrix_add(matrix_mult(auxMatY,x), x);
     return res;
 }
+
+Matrix reference(double t){
+    Matrix ref = matrix_zeros(N$("Referencia: "), 2, 1);
+    if(t>=0 && t<2*PI){
+        ref.values[0][0] = 0.5 - 0.5 * cos(t);
+            ref.values[0][1] = 0.5 * sin(t);
+    }
+    else if(t>=2*PI && t<4*PI){
+        ref.values[0][0] = -0.5 + 0.5 * cos(t);
+        ref.values[0][1] = -0.5 * sin(t);
+    }
+    return ref;
+}
+
+Matrix v_controler(Matrix ym, Matrix ym_dot, 
+                   double a1,      double a2,
+                   double y1,      double y2){
+
+    Matrix v = matrix_zeros(N$("Controler: "), 2, 1);
+    v.values[0][0] = ym_dot.values[0][0] + a1 * (ym.values[0][0] - y1);
+    v.values[0][1] = ym_dot.values[0][1] + a2 * (ym.values[0][1] - y2);
+    return v;
+}
+
+Matrix L(double x3){
+    Matrix a = matrix_zeros(N$("Aux:"), 2, 2);
+    a.values[0][0] = cos(x3);
+    a.values[0][1] = -0.3 * sin(x3);
+    a.values[1][0] = sin(x3);
+    a.values[1][1] = 0.3 * cos(x3);
+
+    return a;
+}
+
+Matrix linearizacao(Matrix v, double x3){
+    Matrix L_inv = matrix_inverse2x2(L(x3));
+    Matrix u = matrix_mult(L_inv, v);
+
+    return u;
+}

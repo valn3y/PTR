@@ -47,6 +47,8 @@ Matrix matrix_scalar_mult(double scalar, Matrix mat);
 // elementos da diagonal principal que são 1.
 Matrix matrix_identity(dstring name, int m, int n);
 
+// Matriz inversa
+Matrix matrix_inverse2x2(Matrix matrix);
 
 
 #endif

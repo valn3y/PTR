@@ -155,3 +155,22 @@ Matrix matrix_identity(dstring name, int m, int n) {
 	return id;
 
 }
+
+Matrix matrix_inverse2x2(Matrix matrix){
+	if( matrix.m == 2 && (matrix.m == matrix.n)){
+		Matrix inv = matrix_zeros(N$("Inversa: "), 2, 2);
+
+		inv.values[0][0] =  matrix.values[1][1];
+		inv.values[0][1] = -1 * matrix.values[0][1];
+		inv.values[1][0] = -1 * matrix.values[1][0];
+		inv.values[1][1] = matrix.values[0][0];
+
+		double det = matrix.values[0][0] * matrix.values[1][1] + matrix.values[0][1] * matrix.values[1][0];
+		if(det == 0){
+			return matrix_zeros(N$("ERRO"), 2, 2);
+		}
+
+		inv = matrix_scalar_mult((1/det), inv);
+		return inv;
+	}
+}
