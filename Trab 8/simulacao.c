@@ -45,41 +45,44 @@ Matrix getYt(double prev_t, double t){
     return point;
 }
 
-// Matrix simulate(double prev_t, double t, Matrix u) {
-//     Matrix pos = getX(t-1, t);
-//     Matrix id = matrix_identity(N$("Resultado"), 3, 3);
-//     Matrix res = matrix_mult(id, matrix_mult(pos, u));
-//     return res;
-// }
 
-Matrix simulate(double prev_t, double t, Matrix u){
+Matrix simulate_x(double prev_t, double t, Matrix u){
     Matrix auxMatX = getX(t-1, t);
-    Matrix x = matrix_mult(auxMatX,u);
-    Matrix auxMatY = getYt(t-1, t);
-    Matrix res = matrix_add(matrix_mult(auxMatY,x), x);
+    Matrix x = matrix_mult(auxMatX, u);
+    return x;
+}
+
+
+Matrix simulate_y(double prev_t, double t, Matrix x){
+    Matrix Id = matrix_identity(N$("Id: "), 2, 3);
+    Matrix aux = matrix_zeros(N$("Aux: "), 2, 1);
+    aux.values[0][0] = 0.3 * cos(x.values[2][0]);
+    aux.values[1][0] = 0.3 * sin(x.values[2][0]);
+    Matrix res = matrix_add(matrix_mult(Id, x), aux);
     return res;
 }
+
 
 Matrix reference(double t){
     Matrix ref = matrix_zeros(N$("Referencia: "), 2, 1);
     if(t>=0 && t<2*PI){
         ref.values[0][0] = 0.5 - 0.5 * cos(t);
-            ref.values[0][1] = 0.5 * sin(t);
+        ref.values[1][0] = 0.5 * sin(t);
     }
     else if(t>=2*PI && t<4*PI){
         ref.values[0][0] = -0.5 + 0.5 * cos(t);
-        ref.values[0][1] = -0.5 * sin(t);
+        ref.values[1][0] = -0.5 * sin(t);
     }
     return ref;
 }
 
-Matrix v_controler(Matrix ym, Matrix ym_dot, 
+Matrix v_controler(Matrix ref, Matrix dot_ref, Matrix y, 
                    double a1,      double a2,
                    double y1,      double y2){
 
     Matrix v = matrix_zeros(N$("Controler: "), 2, 1);
-    v.values[0][0] = ym_dot.values[0][0] + a1 * (ym.values[0][0] - y1);
-    v.values[0][1] = ym_dot.values[0][1] + a2 * (ym.values[0][1] - y2);
+    v.values[0][0] = dot_ref.values[0][0] + a1 * (ref.values[0][0] - y1);
+    v.values[0][1] = dot_ref.values[1][0] + a2 * (ref.values[1][0] - y2);
     return v;
 }
 
@@ -98,4 +101,18 @@ Matrix linearizacao(Matrix v, double x3){
     Matrix u = matrix_mult(L_inv, v);
 
     return u;
+}
+
+
+Matrix dot_reference(double t){
+    Matrix ref = matrix_zeros(N$("Referencia: "), 2, 1);
+    if(t>=0 && t<2*PI){
+        ref.values[0][0] = 0.5 * sin(t);
+        ref.values[1][0] = 0.5 * cos(t);
+    }
+    else if(t>=2*PI && t<4*PI){
+        ref.values[0][0] = -0.5 * sin(t);
+        ref.values[1][0] = -0.5 * cos(t);
+    }
+    return ref;
 }

@@ -173,4 +173,5 @@ Matrix matrix_inverse2x2(Matrix matrix){
 		inv = matrix_scalar_mult((1/det), inv);
 		return inv;
 	}
+	return matrix_zeros(N$("ERRO"), matrix.m, matrix.n);
 }
