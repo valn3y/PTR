@@ -15,6 +15,10 @@ int main(int argc, char const * argv[]) {
 	Matrix y = matrix_zeros(N$("Y: "), 2, 1);
 	Matrix x = matrix_zeros(N$("X: "), 3, 1);
 
+	printf("%.5lf\t%.5lf\t%.5lf\t%.5lf\t%.5lf\t%.5lf\n", 0.0,
+		x.values[0][0], x.values[1][0], x.values[2][0],
+		y.values[0][0], y.values[1][0]);
+
 	for(double i = 0 ; i<13; i = i + delta){
 		Matrix ref = reference(i);
 		
@@ -22,13 +26,18 @@ int main(int argc, char const * argv[]) {
 	
 		Matrix u = linearizacao(v, x.values[2][0]);
 
-		x.name = N$("X: ");
-		matrix_print(x);
+		//x.name = N$("X: ");
+		//matrix_print(x);
 		x = simulate_x(i-delta, i, u);
 		
-		y.name = N$("Y: ");
-		matrix_print(y);
+		//y.name = N$("Y: ");
+		//matrix_print(y);
 		y = simulate_y(i-delta, i, x);
+
+
+		printf("%.5lf\t%.5lf\t%.5lf\t%.5lf\t%.5lf\t%.5lf\n", i,
+		x.values[0][0], x.values[1][0], x.values[2][0],
+		y.values[0][0], y.values[1][0]);
 
 	}
 
