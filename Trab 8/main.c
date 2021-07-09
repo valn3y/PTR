@@ -8,7 +8,7 @@
 #define NUM_THREADS 2
 #define TIMEOUT 20
 
-double delta = 0.2;
+double delta = 0.5;
 
 
 int main(int argc, char const * argv[]) {
